@@ -20,18 +20,37 @@ SHEET = GSPREAD_CLIENT.open('love_burger')
 sales = SHEET.worksheet("sales").get_all_values()
 
 
-def get_last_sales_entries(s):
+def get_last_five_sales_entries():
+    """
+    print the last 5 sales entries
+    """
+    print(sales[-5:])
+
+def update_last_sales_entries(s):
     column = s[-1]
     print(column[0])
     date_object = datetime.strptime(column[0], '%m/%d/%Y').date()
     print(type(date_object))
     
 
-get_last_sales_entries(sales)
 
-def edit_last_sales_entries():
-    #SHEET.worksheet("sales").delete_rows(-1:)
-    column = SHEET.worksheet("sales").max_row
-    print(column[0])
+
+
     
-edit_last_sales_entries()
+
+
+def main():
+   """
+   Selecting the options
+   Executing all the functions
+   """
+   print("Please enter the an option '1' for updating today's sale, '2' for printing the last 5 day sales, '3' for printing the upcoming stock update")
+   opt = input()
+   if opt=='1':
+    print(type(opt))
+   elif opt=='2':
+    get_last_five_sales_entries()
+    
+
+#get_last_five_sales_entries()
+main()
