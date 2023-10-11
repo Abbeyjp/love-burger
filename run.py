@@ -35,7 +35,10 @@ def update_last_sales_entries(s):
 
 
 
-
+def get_last_stocks():
+   """
+    print the last stock entry
+    """ 
     
 
 
@@ -50,6 +53,8 @@ def main():
     print(type(opt))
    elif opt=='2':
     get_last_five_sales_entries()
+   elif opt=='3':
+    get_last_stocks()
     
 
 #get_last_five_sales_entries()
