@@ -4,6 +4,8 @@
 
 import gspread
 from google.oauth2.service_account import Credentials
+from datetime import datetime
+
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -15,14 +17,21 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('love_burger')
+sales = SHEET.worksheet("sales").get_all_values()
 
-#sales = SHEET.worksheet('sales')
 
-#data = sales.get_all_values()
-#print(data)
+def get_last_sales_entries(s):
+    column = s[-1]
+    print(column[0])
+    date_object = datetime.strptime(column[0], '%m/%d/%Y').date()
+    print(type(date_object))
+    
 
-def get_sales_datas(){
-    print("Please enter the sales data from the market");
-    #lets try for a 3 burger along
-    print("Data should be nine numbers, seperated by comma");
-}
+get_last_sales_entries(sales)
+
+def edit_last_sales_entries():
+    #SHEET.worksheet("sales").delete_rows(-1:)
+    column = SHEET.worksheet("sales").max_row
+    print(column[0])
+    
+edit_last_sales_entries()
