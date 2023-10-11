@@ -5,6 +5,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
+from pprint import pprint
 
 
 SCOPE = [
@@ -18,13 +19,14 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('love_burger')
 sales = SHEET.worksheet("sales").get_all_values()
-
+stock = SHEET.worksheet("stocks").get_all_values()
 
 def get_last_five_sales_entries():
     """
     print the last 5 sales entries
     """
     print(sales[-5:])
+
 
 def update_last_sales_entries(s):
     column = s[-1]
@@ -37,8 +39,9 @@ def update_last_sales_entries(s):
 
 def get_last_stocks():
    """
-    print the last stock entry
-    """ 
+   print the last stock entry
+   """
+   print(stock[-1])
     
 
 
