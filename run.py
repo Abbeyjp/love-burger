@@ -64,15 +64,40 @@ def edit_last_input(c, l):
         SHEET.worksheet("sales").delete_rows(l)
         append_today_sales()
 
+def validate_data(val):
+    """
+    This is to validate the data by converting the string to the numbers and followed by checking
+    """
+    try:
+        [int(v) for v in val]
+        if len(val) != 13:
+            raise ValueError(
+              f"Exactly 13 values required, provided {len(val)}"     
+             )
+    except ValueError as e:
+        print(f"Invalid data: {e}, please try again.\n")
+        return False
+
+
+
 def append_today_sales():
     """
     Appending the last row in the sheet
     """
     print("Please enter today's sale in the following order:")
     print("Cheeseburger,	Smash Burgers,	Jalapeño Popper Burgers,	Greek Stuffed Turkey Burgers,	Slutty Vegan's One Night Stand Burger,	Meat Lover's Veggie Burger,	Best-Ever Lamb Burger,	Cola,	Fanta,	7UP,	Soda,	Coffee,	Potato, Fries")
-    print("Example- 213,122,178,73,80,113,137,187,121,101,60,70,650\n")   
-    data_str = input("Enter the values in the respective order seperated with commas:")
-    sales_data = data_str.split(",")
+    print("Example- 213,122,178,73,80,113,137,187,121,101,60,70,650\n")
+    while True:
+        data_str = input("Enter the values in the respective order seperated with commas:")
+        sales_data = data_str.split(",")
+        if validate_data(sales_data):
+            print("Data valid")
+            break
+    
+    return sales_data
+
+
+
 
 
 def get_last_stocks():
