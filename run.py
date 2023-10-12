@@ -40,7 +40,7 @@ def update_last_sales_entries(s):
         """
          Checking if the data was already inputted
         """
-        edit_last_input(column)
+        edit_last_input(column,len(s))
     elif (today-date_object) == timedelta(days = 1):
         """
          Inputting the new line to the sales list & update the stock
@@ -54,13 +54,14 @@ def update_last_sales_entries(s):
         print(today-date_object)
     
 
-def edit_last_input(c):
+def edit_last_input(c, l):
     print("Todays update was already entered:\n", c, "\nWould you like to edit if yes please enter '1' and if not enter anykey")
     opt1 = input()
     if opt1 == '1':
         """
          We will edit the last row
         """
+        SHEET.worksheet("sales").delete_rows(l)
         print("Edit")
 
 
