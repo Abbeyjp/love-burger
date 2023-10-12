@@ -45,12 +45,13 @@ def update_last_sales_entries(s):
         """
          Inputting the new line to the sales list & update the stock
         """
+        print("append")
         append_today_sales()
     else:
         """
          Automating to fill up for the rest of the dates between today and last usage of the application
         """
-        print(today-date_object)
+        print(today-date_object,tday)
     
 
 def edit_last_input(c, l):
@@ -64,7 +65,14 @@ def edit_last_input(c, l):
         append_today_sales()
 
 def append_today_sales():
-    print("entered")
+    """
+    Appending the last row in the sheet
+    """
+    print("Please enter today's sale in the following order:")
+    print("Cheeseburger,	Smash Burgers,	Jalapeño Popper Burgers,	Greek Stuffed Turkey Burgers,	Slutty Vegan's One Night Stand Burger,	Meat Lover's Veggie Burger,	Best-Ever Lamb Burger,	Cola,	Fanta,	7UP,	Soda,	Coffee,	Potato, Fries")
+    print("Example- 213,122,178,73,80,113,137,187,121,101,60,70,650\n")   
+    data_str = input("Enter the values in the respective order seperated with commas:")
+    sales_data = data_str.split(",")
 
 
 def get_last_stocks():
@@ -90,5 +98,4 @@ def main():
     get_last_stocks()
     
 
-#get_last_five_sales_entries()
 main()
