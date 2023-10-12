@@ -78,6 +78,8 @@ def validate_data(val):
         print(f"Invalid data: {e}, please try again.\n")
         return False
 
+    return True
+
 
 
 def append_today_sales():
