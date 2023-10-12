@@ -4,7 +4,7 @@
 
 import gspread
 from google.oauth2.service_account import Credentials
-from datetime import date, time, datetime
+from datetime import date, time, datetime, timedelta
 from pprint import pprint
 
 
@@ -37,11 +37,22 @@ def update_last_sales_entries(s):
     date_object = datetime.strptime(column[0], '%m/%d/%Y').date()
     today = date.today()
     if today==date_object:
-         """
+        """
          Checking if the data was already inputted
-         """
+        """
         print("Todays update was already entered:/n", column, "/nWould you like to edit if yes please enter '1' and if no please enter '2'")
         opt1 = input()
+    elif (today-date_object) == timedelta(days = 1):
+        """
+         Inputting the new line to the sales list & update the stock
+        """
+        today = today.strftime("%m/%d/%Y")
+        print("today")
+    else:
+        """
+         Automating to fill up for the rest of the dates between today and last usage of the application
+        """
+        print(today-date_object)
     
 
 
