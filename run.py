@@ -45,8 +45,7 @@ def update_last_sales_entries(s):
         """
          Inputting the new line to the sales list & update the stock
         """
-        today = today.strftime("%m/%d/%Y")
-        print("yesterday")
+        append_today_sales()
     else:
         """
          Automating to fill up for the rest of the dates between today and last usage of the application
@@ -62,9 +61,10 @@ def edit_last_input(c, l):
          We will edit the last row
         """
         SHEET.worksheet("sales").delete_rows(l)
-        print("Edit")
+        append_today_sales()
 
-
+def append_today_sales():
+    print("entered")
 
 
 def get_last_stocks():
