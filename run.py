@@ -48,7 +48,10 @@ def append_today_sales():
     print("Sales worksheet updated..........")
 
 
-def surplus_data():
+def surplus_data(dta):
+    data_surplus = [int(num) for num in dta]
+    stock= SHEET.worksheet("stocks").get_all_values()
+    latest_stock_row = stock[-1]
     print("surplus")
 
 def update_last_sales_entries(s):
