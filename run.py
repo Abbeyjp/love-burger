@@ -43,10 +43,13 @@ def append_today_sales():
             break
     
     sales_d = [today.strftime("%m/%d/%Y")]+sales_data
-    print("success")
     SHEET.worksheet("sales").append_row(sales_d)
-    print("Sales work:
-    print("surplus", type(sl))
+    surplus_data(sales_data)
+    print("Sales worksheet updated..........")
+
+
+def surplus_data():
+    print("surplus")
 
 def update_last_sales_entries(s):
     """
