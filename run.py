@@ -42,10 +42,11 @@ def append_today_sales():
             print("Data valid")
             break
     
-    sales_data = [today.strftime("%m/%d/%Y")]+sales_data
-    SHEET.worksheet("sales").append_row(sales_data)
-    print(sales_data)
-
+    sales_d = [today.strftime("%m/%d/%Y")]+sales_data
+    print("success")
+    SHEET.worksheet("sales").append_row(sales_d)
+    print("Sales work:
+    print("surplus", type(sl))
 
 def update_last_sales_entries(s):
     """
@@ -55,7 +56,7 @@ def update_last_sales_entries(s):
     print(column[0])
     date_object = datetime.strptime(column[0], '%m/%d/%Y').date()
     
-    if today==date_object:
+    if today == date_object : 
         """
          Checking if the data was already inputted
         """
@@ -116,7 +117,7 @@ def main():
    Selecting the options
    Executing all the functions
    """
-   print("Please enter the an option '1' for updating today's sale, '2' for printing the last 5 day sales, '3' for printing the upcoming stock update")
+   print("Please enter the an option '1' for updating today's sale, '2' to print the last 5 day sales, '3' for printing the upcoming stock update")
    opt = input()
    if opt=='1':
     update_last_sales_entries(sales)
