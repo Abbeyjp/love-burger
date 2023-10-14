@@ -33,7 +33,7 @@ def append_today_sales():
     Appending the last row in the sheet
     """
     print("Please enter today's sale in the following order:")
-    print("Cheeseburger,	Smash Burgers,	Jalapeño Popper Burgers,	Greek Stuffed Turkey Burgers,	Slutty Vegan's One Night Stand Burger,	Meat Lover's Veggie Burger,	Best-Ever Lamb Burger,	Cola,	Fanta,	7UP,	Soda,	Coffee,	Potato, Fries")
+    print("Cheeseburger,	Smash Burgers,	Jalapeño Popper Burgers,	Greek Stuffed Turkey Burgers,	Slutty Vegan's One Night Stand Burger,	Meat Lover's Veggie Burger,	Best-Ever Lamb Burger,	Cola,	Fanta,	7UP,	Cola-Zero,	Apfelschorle, Fries")
     print("Example- 213,122,178,73,80,113,137,187,121,101,60,70,650\n")
     while True:
         data_str = input("Enter the values in the respective order seperated with commas:")
@@ -49,10 +49,16 @@ def append_today_sales():
 
 
 def surplus_data(dta):
-    data_surplus = [int(num) for num in dta]
+    sdata_surplus = [int(num) for num in dta]
     stock= SHEET.worksheet("stocks").get_all_values()
-    latest_stock_row = stock[-1]
-    print("surplus")
+    last_stock_row = stock[-1]
+    last_stock_row = last_stock_row[1:]
+    sdata_surplus = sdata_surplus[1:]
+    surplus_data1=[]
+    for stock in last_stock_row:
+        surplus_data1.append(int(stock))
+        
+    print(last_stock_row, sdata_surplus)
 
 def update_last_sales_entries(s):
     """
