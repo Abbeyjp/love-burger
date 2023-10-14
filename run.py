@@ -113,17 +113,15 @@ def update_last_sales_entries(s):
     
 def automate_filling_sales(tdy,last_update_date, col):
     f_days=(tdy-last_update_date).days
-    
     for i in range(1, f_days):
         colmn=[]
         rand=random.uniform(0.8, 1.2)
         for j in col:
-            colmn.append(math.floor(int(j)*rand))
-            
-        colmn.insert(0,1)
-        sales_row=last_update_date+timedelta(days = i)
+            colmn.append(str(math.floor(int(j)*rand)))
+
+        colmn = [(last_update_date+timedelta(days = i)).strftime("%m/%d/%Y")] + colmn
         print(colmn)
-        #SHEET.worksheet("sales").append_row(sales_row)
+        SHEET.worksheet("sales").append_row(colmn)
         
     
 
