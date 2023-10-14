@@ -7,6 +7,7 @@ from google.oauth2.service_account import Credentials
 from datetime import date, time, datetime, timedelta
 from pprint import pprint
 import math
+import random
 
 
 SCOPE = [
@@ -48,11 +49,11 @@ def append_today_sales():
     surplus_data(sales_data)
     print("Sales worksheet updated..........")
 
-def update_stock(stk):
+def update_stock(a):
     """
     Getting the column variable for calculating the average by removing the date & heading side of the sheet
     """
-    pprint(stk)
+    pprint(a)
     print("done")
     
     
@@ -71,15 +72,15 @@ def surplus_data(dta):
         temp2=sltemp.col_values(i)
         temp.append(temp2[-5:])
     pprint(temp)
-    temp3=[]
+    temp_avg=[]
     for srow in temp:
         avg=0
         for s in srow:
             avg+=int(s)
-        avg=(avg/5)*1.1
-        temp3.append(math.floor(avg))
+        avg=(avg/5)
+        temp_avg.append(math.floor(avg))
     print("AverageDone")
-    update_stock(temp3)
+    update_stock(temp_avg)
 
 
 
@@ -107,8 +108,29 @@ def update_last_sales_entries(s):
         """
          Automating to fill up for the rest of the dates between today and last usage of the application
         """
-        print(today-date_object,today)
+        automate_filling_sales(today,date_object,column[1:])
+        #append_today_sales()
     
+def automate_filling_sales(tdy,last_update_date, col):
+    f_days=(tdy-last_update_date).days
+    
+    for i in range(1, f_days):
+        colmn=[]
+        rand=random.uniform(0.8, 1.2)
+        for j in col:
+            colmn.append(math.floor(int(j)*rand))
+            
+        colmn.insert(0,1)
+        sales_row=last_update_date+timedelta(days = i)
+        print(colmn)
+        #SHEET.worksheet("sales").append_row(sales_row)
+        
+    
+
+
+def auto_append(ud):
+    print(ud)
+
 
 def edit_last_input(c, l):
     print("Todays update was already entered:\n", c, "\nWould you like to edit if yes please enter '1' and if not enter anykey")
