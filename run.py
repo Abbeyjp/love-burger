@@ -49,11 +49,17 @@ def append_today_sales():
     surplus_data(sales_data)
     print("Sales worksheet updated..........")
 
-def update_stock(a):
+def update_stock(a, ls):
     """
     Getting the column variable for calculating the average by removing the date & heading side of the sheet
     """
-    pprint(a)
+    last_s_row = sales[-1]
+    last_s_row = last_s_row[1:]
+    print(a)
+    print("done")
+    print(ls)
+    print("done")
+    print(last_s_row)
     print("done")
     
     
@@ -62,6 +68,19 @@ def update_stock(a):
 def surplus_data(dta):
     stock= SHEET.worksheet("stocks").get_all_values()
     last_stock_row = stock[-1]
+    last_stock_date = last_stock_row[0]
+    print(last_stock_date)
+    print(date.datetime.strptime(last_stock_date, '%m/%d/%Y'), date.today())
+    print("hhhhhhhhhh")
+    if (date.strptime(last_stock_date, '%m/%d/%Y')) > date.today():
+        last_stock_row = stock[-2]
+        last_stock_date = last_stock_row[0]
+        l=len(stock)
+        SHEET.worksheet("stocks").delete_rows(l)
+    elif (date.strptime(last_stock_date, '%m/%d/%Y'))-date.today() > timedelta(days = 7):
+        """
+        Automate the final stock and add a new line for next schedule 
+        """
     last_stock_row = last_stock_row[1:]
     surplus_data1=[]
     for stock in last_stock_row:
@@ -70,18 +89,17 @@ def surplus_data(dta):
     temp=[]
     for i in range(2,15):
         temp2=sltemp.col_values(i)
-        temp.append(temp2[-5:])
+        temp.append(temp2[-30:])
     pprint(temp)
     temp_avg=[]
     for srow in temp:
         avg=0
         for s in srow:
             avg+=int(s)
-        avg=(avg/5)
+        avg=(avg/30)
         temp_avg.append(math.floor(avg))
     print("AverageDone")
-    update_stock(temp_avg)
-
+    update_stock(temp_avg, last_stock_row)
 
 
 
@@ -112,6 +130,9 @@ def update_last_sales_entries(s):
         #append_today_sales()
     
 def automate_filling_sales(tdy,last_update_date, col):
+    """
+    This function is used to create a junk sales projection so the program could function perfectly
+    """
     f_days=(tdy-last_update_date).days
     for i in range(1, f_days):
         colmn=[]
@@ -123,11 +144,6 @@ def automate_filling_sales(tdy,last_update_date, col):
         print(colmn)
         SHEET.worksheet("sales").append_row(colmn)
         
-    
-
-
-def auto_append(ud):
-    print(ud)
 
 
 def edit_last_input(c, l):
