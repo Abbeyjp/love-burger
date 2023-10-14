@@ -47,18 +47,43 @@ def append_today_sales():
     surplus_data(sales_data)
     print("Sales worksheet updated..........")
 
+def update_stock(stk):
+    """
+    Getting the column variable for calculating the average by removing the date & heading side of the sheet
+    """
+    sltemp=SHEET.worksheet("sales")
+    temp=[]
+    for i in range(2,15):
+        temp2=sltemp.col_values(i)
+        temp.append(temp2[-5:])
+    pprint(temp)
+    temp3=[]
+    for srow in temp:
+        avg=0
+        for s in srow:
+            avg+=int(s)
+        avg=avg/5
+        temp3.append(avg)
+    print("AverageDone")
+    
+    
+
 
 def surplus_data(dta):
-    sdata_surplus = [int(num) for num in dta]
+    nsdata_surplus = [int(num) for num in dta]
     stock= SHEET.worksheet("stocks").get_all_values()
     last_stock_row = stock[-1]
     last_stock_row = last_stock_row[1:]
-    sdata_surplus = sdata_surplus[1:]
+    sdata_surplus = nsdata_surplus[1:]
     surplus_data1=[]
     for stock in last_stock_row:
         surplus_data1.append(int(stock))
-        
+
+    update_stock(surplus_data)    
     print(last_stock_row, sdata_surplus)
+
+
+
 
 def update_last_sales_entries(s):
     """
