@@ -6,6 +6,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 from datetime import date, time, datetime, timedelta
 from pprint import pprint
+import math
 
 
 SCOPE = [
@@ -51,6 +52,19 @@ def update_stock(stk):
     """
     Getting the column variable for calculating the average by removing the date & heading side of the sheet
     """
+    pprint(stk)
+    print("done")
+    
+    
+
+
+def surplus_data(dta):
+    stock= SHEET.worksheet("stocks").get_all_values()
+    last_stock_row = stock[-1]
+    last_stock_row = last_stock_row[1:]
+    surplus_data1=[]
+    for stock in last_stock_row:
+        surplus_data1.append(int(stock))
     sltemp=SHEET.worksheet("sales")
     temp=[]
     for i in range(2,15):
@@ -62,25 +76,10 @@ def update_stock(stk):
         avg=0
         for s in srow:
             avg+=int(s)
-        avg=avg/5
-        temp3.append(avg)
+        avg=(avg/5)*1.1
+        temp3.append(math.floor(avg))
     print("AverageDone")
-    
-    
-
-
-def surplus_data(dta):
-    nsdata_surplus = [int(num) for num in dta]
-    stock= SHEET.worksheet("stocks").get_all_values()
-    last_stock_row = stock[-1]
-    last_stock_row = last_stock_row[1:]
-    sdata_surplus = nsdata_surplus[1:]
-    surplus_data1=[]
-    for stock in last_stock_row:
-        surplus_data1.append(int(stock))
-
-    update_stock(surplus_data)    
-    print(last_stock_row, sdata_surplus)
+    update_stock(temp3)
 
 
 
