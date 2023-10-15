@@ -8,6 +8,7 @@ from datetime import date, time, datetime, timedelta
 from pprint import pprint
 import math
 import random
+from decimal import Decimal
 
 
 SCOPE = [
@@ -53,19 +54,37 @@ def update_stock(a, ls):
     """
     Getting the column variable for calculating the average by removing the date & heading side of the sheet
     """
+   
     last_s_row = sales[-1]
     last_s_row = last_s_row[1:]
     print("averga donnnnnnnnnnnnnn")
     print(a)
     print("lastrowoooooooooooooooo")
-    last_row_sal=list_int_convertor(ls)
-    print(last_row_sal)
+    last_row_sal = list_int_convertor(last_s_row)
     print("last row sales")
-    last_row_stk=list_int_convertor(last_s_row)
-    print(last_row_stk)
-    print("done")
+    last_row_stk = list_int_convertor(ls)
+    ingred = SHEET.worksheet("ingredients").get_all_values()
+    ingred = ingred[-7:]
+    total_used=[]
+    print(last_row_sal)
+    usage_fn(ingred, last_row_sal)
     
     
+def usage_fn(ing, sale1):
+    cumulative=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    for i, j in zip(sale1, ing):
+        j=j[1:]
+        looper=0
+        for burger in j:
+            temp=float(burger)*int(i)
+            cumulative[looper]+=temp
+            looper+=1
+
+    print("Cumulative items used",cumulative)
+            
+            
+
+
 
 
 def surplus_data():
