@@ -79,8 +79,14 @@ def usage_fn(ing, sale1):
             temp=float(burger)*int(i)
             cumulative[looper]+=temp
             looper+=1
+    cumulat=[]
+    for k in cumulative:
+        cumulat.append(str(int(k)))
 
-    print("Cumulative items used",cumulative)
+
+    cumulat=[today.strftime("%m/%d/%Y")]+cumulat
+    SHEET.worksheet("stocks").append_row(cumulat)
+    print("Cumulative items used", cumulat)
             
             
 
