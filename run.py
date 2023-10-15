@@ -58,9 +58,11 @@ def update_stock(a, ls):
     print("averga donnnnnnnnnnnnnn")
     print(a)
     print("lastrowoooooooooooooooo")
-    print(ls)
+    last_row_sal=list_int_convertor(ls)
+    print(last_row_sal)
     print("last row sales")
-    print(last_s_row)
+    last_row_stk=list_int_convertor(last_s_row)
+    print(last_row_stk)
     print("done")
     
     
@@ -94,9 +96,11 @@ def surplus_data():
     print("AverageDone")
     update_stock(temp_avg, last_stock_row)
 
-def list_int_convertor():
+def list_int_convertor(last_stock_row):
+    surplus_data1=[]
     for sk in last_stock_row:
         surplus_data1.append(int(sk))
+    return surplus_data1
 
 def avg_sales30():
     sltemp = SHEET.worksheet("sales")
