@@ -21,7 +21,7 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('love_burger')
 sales = SHEET.worksheet("sales").get_all_values()
-stock = SHEET.worksheet("stocks").get_all_values()
+STOCK = SHEET.worksheet("stocks").get_all_values()
 today = date.today()
 
 def get_last_five_sales_entries():
@@ -55,53 +55,63 @@ def update_stock(a, ls):
     """
     last_s_row = sales[-1]
     last_s_row = last_s_row[1:]
+    print("averga donnnnnnnnnnnnnn")
     print(a)
-    print("done")
+    print("lastrowoooooooooooooooo")
     print(ls)
-    print("done")
+    print("last row sales")
     print(last_s_row)
     print("done")
     
     
 
 
-def surplus_data(dta):
-    stock= SHEET.worksheet("stocks").get_all_values()
-    last_stock_row = stock[-1]
+def surplus_data():
+    stk = STOCK
+    last_stock_row = stk[-1]
     last_stock_date = last_stock_row[0]
-    print(last_stock_date)
-    print(date.datetime.strptime(last_stock_date, '%m/%d/%Y'), date.today())
-    print("hhhhhhhhhh")
-    if (date.strptime(last_stock_date, '%m/%d/%Y')) > date.today():
-        last_stock_row = stock[-2]
+    print(last_stock_date,"Stock date")
+    print(datetime.strptime(last_stock_date, '%m/%d/%Y').date()-date.today())
+    print("face")
+    date_dif = datetime.strptime(last_stock_date, '%m/%d/%Y').date()-date.today()
+    print("hhhhhhhhhh", type(date_dif.days))
+    if date_dif.days > 0:
+        last_stock_row = stk[-2]
         last_stock_date = last_stock_row[0]
-        l=len(stock)
+        l=len(stk)
         SHEET.worksheet("stocks").delete_rows(l)
-    elif (date.strptime(last_stock_date, '%m/%d/%Y'))-date.today() > timedelta(days = 7):
+    elif date_dif.days > 7:
         """
         Automate the final stock and add a new line for next schedule 
         """
+    elif date_dif.days >= 0 & date_dif.days <= 7:
+        """
+        Automate the next
+        """
     last_stock_row = last_stock_row[1:]
-    surplus_data1=[]
-    for stock in last_stock_row:
-        surplus_data1.append(int(stock))
-    sltemp=SHEET.worksheet("sales")
-    temp=[]
-    for i in range(2,15):
-        temp2=sltemp.col_values(i)
-        temp.append(temp2[-30:])
-    pprint(temp)
-    temp_avg=[]
-    for srow in temp:
-        avg=0
-        for s in srow:
-            avg+=int(s)
-        avg=(avg/30)
-        temp_avg.append(math.floor(avg))
+    temp_avg=avg_sales30()
+    print(last_stock_row)
     print("AverageDone")
     update_stock(temp_avg, last_stock_row)
 
+def list_int_convertor():
+    for sk in last_stock_row:
+        surplus_data1.append(int(sk))
 
+def avg_sales30():
+    sltemp = SHEET.worksheet("sales")
+    temp = []
+    for i in range(2,15):
+        temp2 = sltemp.col_values(i)
+        temp.append(temp2[-30:])
+    temp_avg = []
+    for srow in temp:
+        avg = 0
+        for s in srow:
+            avg += int(s)
+        avg = (avg/30)
+        temp_avg.append(math.floor(avg))
+    return(temp_avg)
 
 def update_last_sales_entries(s):
     """
@@ -111,7 +121,7 @@ def update_last_sales_entries(s):
     print(column[0])
     date_object = datetime.strptime(column[0], '%m/%d/%Y').date()
     
-    if today == date_object : 
+    if today == date_object: 
         """
          Checking if the data was already inputted
         """
@@ -198,5 +208,4 @@ def main():
    elif opt=='3':
     get_last_stocks()
     
-
-main()
+surplus_data()
