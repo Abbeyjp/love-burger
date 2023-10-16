@@ -127,10 +127,24 @@ def surplus_data():
         SHEET.worksheet("stocks").delete_rows(l)
     else:
         if day_var < (-7):
-           weeks = day_var/7
+           weeks = math.floor(-1*day_var/7)
+           iter=0
+           while(iter < weeks):
+            iter+=1
+            t=iter*7
+            print(t)
+            temp_row = last_stock_row[1:]
+            datt1=datetime.strptime(last_stock_date, '%m/%d/%Y').date()+timedelta(days=t)
+            datt=datt1.strftime("%m/%d/%Y")
+            temp_row.insert(0, str(datt))
+            SHEET.worksheet("stocks").append_row(temp_row)
+            
+           
+           last_stock_row=stk[-1]
+           print(last_stock_row)
+           last_stock_date = last_stock_row[0]
            print("week=",weeks)
 
-    
     day_var = day_var + 65 
     print(day_var)
     last_stock_row = stk[-1]
@@ -142,11 +156,15 @@ def surplus_data():
         k = 0
         for s in irow:
             total_sale7[k] += int(s)
-            k+=1
-            
+            k+=1       
             
     last_stock_row = last_stock_row[1:]
     update_stock(temp_avg, total_sale7, last_stock_row)
+
+
+
+
+
 
 def list_int_convertor(last_row):
     surplus_data1=[]
@@ -260,4 +278,4 @@ def main():
    elif opt=='3':
     get_last_stocks()
     
-main()
+surplus_data()
