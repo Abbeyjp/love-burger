@@ -54,23 +54,32 @@ def update_stock(a, tsale7, lstk):
     """
     Getting the column variable for calculating the average by removing the date & heading side of the sheet
     """
-   
-    print("last row sales", lstk)
     last_row_stk = list_int_convertor(lstk)
     ingred = SHEET.worksheet("ingredients").get_all_values()
     ingred = ingred[-7:]
     total_used=[]
     total_used=usage_fn(ingred, tsale7)
-    print("total---------------------------------", total_used)
-    print(last_row_stk)
     new_stock=[]
     print("hereeeeeeeeeeeeeeeeeeeeeee")
     for i, j in zip(total_used, last_row_stk):
-        print(i,"--",j)
-        new_stock.append(j-i)
+        if ((j-i)/j) > (0.15):
+            new_stock.append(j)
+        else:
+            new_stock.append(round(i*1.1))
+        
+    new_stock= round_off(new_stock)
+    stock_new=[today.strftime("%m/%d/%Y")]+new_stock
+    SHEET.worksheet("stocks").append_row(stock_new)
     print("variation", new_stock)
 
-    
+
+def round_off(ls):
+    k=0
+    for i in ls:
+        ls[k]=round(ls[k]/100)+1
+        ls[k] *= 100
+        k+=1
+    return ls
     
 def usage_fn(ing, sale1):
     cumulative=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -109,9 +118,7 @@ def surplus_data():
     last_stock_date = last_stock_row[0]
     print(last_stock_date,"Stock date")
     print(datetime.strptime(last_stock_date, '%m/%d/%Y').date()-date.today())
-    print("face")
     date_dif = datetime.strptime(last_stock_date, '%m/%d/%Y').date()-date.today()
-    print("hhhhhhhhhh", type(date_dif.days))
     day_var = date_dif.days
     if day_var > 0:
         last_stock_row = stk[-2]
@@ -129,7 +136,6 @@ def surplus_data():
     last_stock_row = stk[-1]
     last_sales_row7 = sales[-7:]
     temp_avg=avg_sales30()
-    print("AverageDone")    
     total_sale7 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for irow in last_sales_row7:
         irow = irow[1:]
@@ -139,11 +145,7 @@ def surplus_data():
             k+=1
             
             
-    print(total_sale7)      
-
-    ################################
     last_stock_row = last_stock_row[1:]
-    print("happy", last_stock_row)
     update_stock(temp_avg, total_sale7, last_stock_row)
 
 def list_int_convertor(last_row):
@@ -172,7 +174,6 @@ def update_last_sales_entries(s):
     This funtion is either to input today's sales entry or edit
     """
     column = s[-1]
-    print(column[0])
     date_object = datetime.strptime(column[0], '%m/%d/%Y').date()
     
     if today == date_object: 
@@ -184,14 +185,12 @@ def update_last_sales_entries(s):
         """
          Inputting the new line to the sales list & update the stock
         """
-        print("append")
         append_today_sales()
     else:
         """
          Automating to fill up for the rest of the dates between today and last usage of the application
         """
         automate_filling_sales(today,date_object,column[1:])
-        #append_today_sales()
     
 def automate_filling_sales(tdy,last_update_date, col):
     """
@@ -205,7 +204,6 @@ def automate_filling_sales(tdy,last_update_date, col):
             colmn.append(str(math.floor(int(j)*rand)))
 
         colmn = [(last_update_date+timedelta(days = i)).strftime("%m/%d/%Y")] + colmn
-        print(colmn)
         SHEET.worksheet("sales").append_row(colmn)
         
 
