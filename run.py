@@ -50,31 +50,25 @@ def append_today_sales():
     surplus_data()
     print("Sales worksheet updated..........")
 
-def update_stock(a, ls):
+def update_stock(a, tsale7, lstk):
     """
     Getting the column variable for calculating the average by removing the date & heading side of the sheet
     """
    
-    last_s_row = sales[-1]
-    last_s_row = last_s_row[1:]
-    print("averga donnnnnnnnnnnnnn")
-    print(a)
-    print("lastrowoooooooooooooooo")
-    last_row_sal = list_int_convertor(last_s_row)
-    print("last row sales", ls)
-    last_row_stk = list_int_convertor(ls)
+    print("last row sales", lstk)
+    last_row_stk = list_int_convertor(lstk)
     ingred = SHEET.worksheet("ingredients").get_all_values()
     ingred = ingred[-7:]
     total_used=[]
-    print(last_row_sal)
-    total_used=usage_fn(ingred, last_row_sal)
+    total_used=usage_fn(ingred, tsale7)
     print("total---------------------------------", total_used)
     print(last_row_stk)
     new_stock=[]
+    print("hereeeeeeeeeeeeeeeeeeeeeee")
     for i, j in zip(total_used, last_row_stk):
         print(i,"--",j)
         new_stock.append(j-i)
-    print("variation",new_stock)
+    print("variation", new_stock)
 
     
     
@@ -92,7 +86,6 @@ def usage_fn(ing, sale1):
         for burger in j:
             temp=float(burger)*int(i)
             cumulative[looper]+=temp
-            print(burger,"--",i,)
             looper+=1
     cumulat=[]
     for k in cumulative:
@@ -134,11 +127,24 @@ def surplus_data():
     day_var = day_var + 65 
     print(day_var)
     last_stock_row = stk[-1]
+    last_sales_row7 = sales[-7:]
     temp_avg=avg_sales30()
-    print("AverageDone")
+    print("AverageDone")    
+    total_sale7 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    for irow in last_sales_row7:
+        irow = irow[1:]
+        k = 0
+        for s in irow:
+            total_sale7[k] += int(s)
+            k+=1
+            
+            
+    print(total_sale7)      
+
+    ################################
     last_stock_row = last_stock_row[1:]
     print("happy", last_stock_row)
-    update_stock(temp_avg, last_stock_row)
+    update_stock(temp_avg, total_sale7, last_stock_row)
 
 def list_int_convertor(last_row):
     surplus_data1=[]
@@ -256,4 +262,4 @@ def main():
    elif opt=='3':
     get_last_stocks()
     
-surplus_data()
+main()
