@@ -47,7 +47,7 @@ def append_today_sales():
     
     sales_d = [today.strftime("%m/%d/%Y")]+sales_data
     SHEET.worksheet("sales").append_row(sales_d)
-    surplus_data(sales_data)
+    surplus_data()
     print("Sales worksheet updated..........")
 
 def update_stock(a, ls):
@@ -61,32 +61,49 @@ def update_stock(a, ls):
     print(a)
     print("lastrowoooooooooooooooo")
     last_row_sal = list_int_convertor(last_s_row)
-    print("last row sales")
+    print("last row sales", ls)
     last_row_stk = list_int_convertor(ls)
     ingred = SHEET.worksheet("ingredients").get_all_values()
     ingred = ingred[-7:]
     total_used=[]
     print(last_row_sal)
-    usage_fn(ingred, last_row_sal)
+    total_used=usage_fn(ingred, last_row_sal)
+    print("total---------------------------------", total_used)
+    print(last_row_stk)
+    new_stock=[]
+    for i, j in zip(total_used, last_row_stk):
+        print(i,"--",j)
+        new_stock.append(j-i)
+    print("variation",new_stock)
+
     
     
 def usage_fn(ing, sale1):
-    cumulative=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    cumulative=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    cumulative[-1]=sale1[-1]
+    cumulative[-2]=sale1[-2]
+    cumulative[-3]=sale1[-3]
+    cumulative[-4]=sale1[-4]
+    cumulative[-5]=sale1[-5]
+    cumulative[-6]=sale1[-6]
     for i, j in zip(sale1, ing):
         j=j[1:]
         looper=0
         for burger in j:
             temp=float(burger)*int(i)
             cumulative[looper]+=temp
+            print(burger,"--",i,)
             looper+=1
     cumulat=[]
     for k in cumulative:
-        cumulat.append(str(int(k)))
+        cumulat.append(int(k))
 
 
-    cumulat=[today.strftime("%m/%d/%Y")]+cumulat
-    SHEET.worksheet("stocks").append_row(cumulat)
-    print("Cumulative items used", cumulat)
+    #cumulat=[today.strftime("%m/%d/%Y")]+cumulat
+    #return cumulat
+    return cumulat
+    #SHEET.worksheet("stocks").append_row(cumulat)
+    #print("Cumulative items used", cumulat)
             
             
 
@@ -102,28 +119,30 @@ def surplus_data():
     print("face")
     date_dif = datetime.strptime(last_stock_date, '%m/%d/%Y').date()-date.today()
     print("hhhhhhhhhh", type(date_dif.days))
-    if date_dif.days > 0:
+    day_var = date_dif.days
+    if day_var > 0:
         last_stock_row = stk[-2]
         last_stock_date = last_stock_row[0]
         l=len(stk)
         SHEET.worksheet("stocks").delete_rows(l)
-    elif date_dif.days > 7:
-        """
-        Automate the final stock and add a new line for next schedule 
-        """
-    elif date_dif.days >= 0 & date_dif.days <= 7:
-        """
-        Automate the next
-        """
-    last_stock_row = last_stock_row[1:]
+    else:
+        if day_var < (-7):
+           weeks = day_var/7
+           print("week=",weeks)
+
+    
+    day_var = day_var + 65 
+    print(day_var)
+    last_stock_row = stk[-1]
     temp_avg=avg_sales30()
-    print(last_stock_row)
     print("AverageDone")
+    last_stock_row = last_stock_row[1:]
+    print("happy", last_stock_row)
     update_stock(temp_avg, last_stock_row)
 
-def list_int_convertor(last_stock_row):
+def list_int_convertor(last_row):
     surplus_data1=[]
-    for sk in last_stock_row:
+    for sk in last_row:
         surplus_data1.append(int(sk))
     return surplus_data1
 
