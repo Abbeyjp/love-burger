@@ -50,6 +50,7 @@ def append_today_sales():
             print("Data valid")
             break
     
+    today = date.today()
     sales_d = [today.strftime("%m/%d/%Y")]+sales_data
     SHEET.worksheet("sales").append_row(sales_d)
     surplus_data()
@@ -207,7 +208,7 @@ def update_last_sales_entries():
         """
          Checking if the data was already inputted
         """
-        edit_last_input(column,len(s))
+        edit_last_input(column,len(sales))
     elif (today-date_object) == timedelta(days = 1):
         """
          Inputting the new line to the sales list & update the stock
@@ -218,12 +219,13 @@ def update_last_sales_entries():
          Automating to fill up for the rest of the dates between today and last usage of the application
         """
         automate_filling_sales(today,date_object,column[1:])
+        append_today_sales()
     
 def automate_filling_sales(tdy,last_update_date, col):
     """
     This function is used to create a junk sales projection so the program could function perfectly
     """
-    f_days=(tdy-last_update_date).days
+    f_days=(tdy-last_update_date).days+1
     for i in range(1, f_days):
         colmn=[]
         rand=random.uniform(0.8, 1.2)
