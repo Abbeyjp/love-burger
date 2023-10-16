@@ -50,7 +50,7 @@ def append_today_sales():
     surplus_data()
     print("Sales worksheet updated..........")
 
-def update_stock(a, tsale7, lstk, last_date):
+def update_stock(tsale7, lstk, last_date):
     """
     Getting the column variable for calculating the average by removing the date & heading side of the sheet
     """
@@ -60,7 +60,6 @@ def update_stock(a, tsale7, lstk, last_date):
     total_used=[]
     total_used=usage_fn(ingred, tsale7)
     new_stock=[]
-    print("hereeeeeeeeeeeeeeeeeeeeeee")
     for i, j in zip(total_used, last_row_stk):
         if ((j-i)/j) > (0.15):
             new_stock.append(j)
@@ -68,13 +67,15 @@ def update_stock(a, tsale7, lstk, last_date):
             new_stock.append(round(i*1.1))
         
     new_stock= round_off(new_stock)
-    print(last_date, type(last_date))
     stock_new=[last_date]+new_stock
     SHEET.worksheet("stocks").append_row(stock_new)
-    print("variation", new_stock)
+    print("variation", stock_new)
 
 
 def round_off(ls):
+    """
+    Used to round of to the nearest number divisible with 100
+    """
     k=0
     for i in ls:
         ls[k]=round(ls[k]/100)+1
@@ -83,6 +84,10 @@ def round_off(ls):
     return ls
     
 def usage_fn(ing, sale1):
+    """
+    -Used forfinding the total uasge as per last week
+    -Here we have used the ingredients matrix from the ingredient sheet for calulating the total usage
+    """
     cumulative=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     cumulative[-1]=sale1[-1]
     cumulative[-2]=sale1[-2]
@@ -101,19 +106,18 @@ def usage_fn(ing, sale1):
     for k in cumulative:
         cumulat.append(int(k))
 
-
-    #cumulat=[today.strftime("%m/%d/%Y")]+cumulat
-    #return cumulat
-    return cumulat
-    #SHEET.worksheet("stocks").append_row(cumulat)
-    #print("Cumulative items used", cumulat)
-            
+    return cumulat         
             
 
 
 
 
 def surplus_data():
+    """
+    -This function is used to find the surplus stock
+    -We also automate the stock so that the program runs without any error,
+    -We also find the sum of all last week sales 
+    """
     stk = STOCK
     last_stock_row = stk[-1]
     last_stock_date = last_stock_row[0]
@@ -121,10 +125,8 @@ def surplus_data():
     print(datetime.strptime(last_stock_date, '%m/%d/%Y').date()-date.today())
     date_dif = datetime.strptime(last_stock_date, '%m/%d/%Y').date()-date.today()
     day_var = date_dif.days
-    print(day_var,"lllllllllllllllllllllllllll")
     if day_var > 0:
         last_stock_date = last_stock_row[0]
-        print(last_stock_date,"ddddddddddddddddddddddddddddddd")
         last_stock_row = stk[-2]
         l=len(stk)
         SHEET.worksheet("stocks").delete_rows(l)
@@ -152,7 +154,7 @@ def surplus_data():
     stk = SHEET.worksheet("stocks").get_all_values()
     last_stock_row = stk[-1]
     last_sales_row7 = sales[-7:]
-    temp_avg=avg_sales30()
+    print(last_stock_date,"Stock date")
     total_sale7 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for irow in last_sales_row7:
         irow = irow[1:]
@@ -162,7 +164,7 @@ def surplus_data():
             k+=1       
             
     last_stock_row = last_stock_row[1:]
-    update_stock(temp_avg, total_sale7, last_stock_row, last_stock_date)
+    update_stock(total_sale7, last_stock_row, last_stock_date)
 
 
 
@@ -170,12 +172,19 @@ def surplus_data():
 
 
 def list_int_convertor(last_row):
+    """
+    Function helps us to convert the string into integer format for easy calculations
+    """
     surplus_data1=[]
     for sk in last_row:
         surplus_data1.append(int(sk))
     return surplus_data1
 
 def avg_sales30():
+    """
+    Function helps us to find the average sales in the last 30 days
+    """
+
     sltemp = SHEET.worksheet("sales")
     temp = []
     for i in range(2,15):
@@ -230,6 +239,9 @@ def automate_filling_sales(tdy,last_update_date, col):
 
 
 def edit_last_input(c, l):
+    """
+    Function conveys that the data entry for this week was already entered and asking you whether you want to proceed
+    """
     print("Todays update was already entered:\n", c, "\nWould you like to edit if yes please enter '1' and if not enter anykey")
     opt1 = input()
     if opt1 == '1':
@@ -281,4 +293,4 @@ def main():
    elif opt=='3':
     get_last_stocks()
     
-surplus_data()
+main()
