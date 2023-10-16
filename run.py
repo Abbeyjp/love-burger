@@ -50,7 +50,7 @@ def append_today_sales():
     surplus_data()
     print("Sales worksheet updated..........")
 
-def update_stock(a, tsale7, lstk):
+def update_stock(a, tsale7, lstk, last_date):
     """
     Getting the column variable for calculating the average by removing the date & heading side of the sheet
     """
@@ -68,7 +68,8 @@ def update_stock(a, tsale7, lstk):
             new_stock.append(round(i*1.1))
         
     new_stock= round_off(new_stock)
-    stock_new=[today.strftime("%m/%d/%Y")]+new_stock
+    print(last_date, type(last_date))
+    stock_new=[last_date]+new_stock
     SHEET.worksheet("stocks").append_row(stock_new)
     print("variation", new_stock)
 
@@ -120,12 +121,15 @@ def surplus_data():
     print(datetime.strptime(last_stock_date, '%m/%d/%Y').date()-date.today())
     date_dif = datetime.strptime(last_stock_date, '%m/%d/%Y').date()-date.today()
     day_var = date_dif.days
+    print(day_var,"lllllllllllllllllllllllllll")
     if day_var > 0:
-        last_stock_row = stk[-2]
         last_stock_date = last_stock_row[0]
+        print(last_stock_date,"ddddddddddddddddddddddddddddddd")
+        last_stock_row = stk[-2]
         l=len(stk)
         SHEET.worksheet("stocks").delete_rows(l)
     else:
+        temp_row = last_stock_row
         if day_var < (-7):
            weeks = math.floor(-1*day_var/7)
            iter=0
@@ -137,16 +141,15 @@ def surplus_data():
             datt1=datetime.strptime(last_stock_date, '%m/%d/%Y').date()+timedelta(days=t)
             datt=datt1.strftime("%m/%d/%Y")
             temp_row.insert(0, str(datt))
-            SHEET.worksheet("stocks").append_row(temp_row)
-            
-           
-           last_stock_row=stk[-1]
+            SHEET.worksheet("stocks").append_row(temp_row)            
+                       
+           last_stock_row = temp_row
            print(last_stock_row)
-           last_stock_date = last_stock_row[0]
+           last_stock_date = (datetime.strptime(last_stock_date, '%m/%d/%Y').date()+timedelta(days=t+7)).strftime("%m/%d/%Y")
            print("week=",weeks)
 
-    day_var = day_var + 65 
-    print(day_var)
+    sales = SHEET.worksheet("sales").get_all_values()
+    stk = SHEET.worksheet("stocks").get_all_values()
     last_stock_row = stk[-1]
     last_sales_row7 = sales[-7:]
     temp_avg=avg_sales30()
@@ -159,7 +162,7 @@ def surplus_data():
             k+=1       
             
     last_stock_row = last_stock_row[1:]
-    update_stock(temp_avg, total_sale7, last_stock_row)
+    update_stock(temp_avg, total_sale7, last_stock_row, last_stock_date)
 
 
 
