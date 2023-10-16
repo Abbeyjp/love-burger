@@ -21,6 +21,7 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('love_burger')
 sales = SHEET.worksheet("sales").get_all_values()
 STOCK = SHEET.worksheet("stocks").get_all_values()
+INGRED = SHEET.worksheet("ingredients").get_all_values()
 today = date.today()
 
 def get_last_five_sales_entries():
@@ -273,8 +274,42 @@ def get_last_stocks():
    """
    print the last stock entry
    """
-   print(stock[-1])
+   line = STOCK[-1]
+   head=STOCK[0]
+   head=head[1:]
+   ing=INGRED[6]
+   ing=ing[1:]
+   ing= ing+['l','l','l','l','l','l','g']
+   dat=datetime.strptime(line[0], '%m/%d/%Y').date()-today
+   if dat.days < 0:
+    print("Please update the previous sales data")
+    director()
+   else:
+    print("Next Stock updation date is on:",line[0],"\n")
+    line=line[1:]
+    for i, j, k in zip(line, head, ing):
+        if(k=='g'):
+            s=round(int(i)/1000)
+            print(j,"=",s,"Kg")
+        elif(k=='l'):
+            s=round(int(i)/1000)
+            print(j,"=",s,"L")
+        else:
+            print(j,"=",i)
+   
+   
+        
+        
     
+def director():
+    print("Please enter the an option '1' for updating today's sale, '2' to print the last 5 day sales, '3' for printing the upcoming stock update")
+    opt = input()
+    if opt=='1':
+        update_last_sales_entries(sales)
+    elif opt=='2':
+        get_last_five_sales_entries()
+    elif opt=='3':
+        get_last_stocks()
 
 
 def main():
@@ -282,13 +317,6 @@ def main():
    Selecting the options
    Executing all the functions
    """
-   print("Please enter the an option '1' for updating today's sale, '2' to print the last 5 day sales, '3' for printing the upcoming stock update")
-   opt = input()
-   if opt=='1':
-    update_last_sales_entries(sales)
-   elif opt=='2':
-    get_last_five_sales_entries()
-   elif opt=='3':
-    get_last_stocks()
+   director()
     
 main()
