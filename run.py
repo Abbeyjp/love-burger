@@ -32,7 +32,7 @@ def get_last_five_sales_entries():
     sl=[sales[0]]+sl
     for row in sl:
         print("{: >10} {: >10} {: >10} {: >10} {: >10} {: >10} {: >10} {: >10} {: >10} {: >10} {: >10} {: >10} {: >10} {: >10}".format(*row))
-    print("Process executed..............")
+    print(Fore.RED+"Process executed..............\n\n")
     director()
 
 
@@ -191,7 +191,7 @@ def avg_sales(req_i):
     temp_avg = []
     for srow in temp:
         avg = 0
-        for s in srow:
+        for s in srow[1:]:
             avg += int(s)
         temp_avg.append(math.floor(avg))
     return temp_avg
@@ -251,7 +251,7 @@ def edit_last_input(c, l):
         SHEET.worksheet("sales").delete_rows(l)
         append_today_sales()
     else:
-        print("Process cancelled......")
+        print(Fore.RED+"Process cancelled......\n\n")
 
 def validate_data(val):
     """
@@ -298,7 +298,7 @@ def get_upcoming_stocks():
             else:
                 print(j,"=",i)
     
-        print("Process executed..............\n\n")
+        print(Fore.RED+"Process executed..............\n\n")
         director()
 
 def get_left_stocks():
@@ -317,6 +317,7 @@ def get_left_stocks():
         t=(dat.days)-7
         line = STOCK[-2]
         line = line[1:]
+        print(t)
         sal=avg_sales(t)
         total_used=usage_fn(ing, sal)
         left_stock=[]
@@ -337,7 +338,7 @@ def get_left_stocks():
             else:
                 print(j,"=",i)
         
-        print("Process executed..............")
+        print(Fore.RED+"Process executed..............\n\n")
         director()
 
     
@@ -349,7 +350,8 @@ def director():
     Selecting the options
     Executing all the functions
     """
-    print("Please enter the an option \n'1' for updating today's sale, \n'2' to print the last 5 day sales \n'3' for printing the upcoming stock update \n'4' for printing the stock leftout for this week \n'5' for Exiting the application")
+    print(f"{Back.RED}Please enter the an option")
+    print("'1' for updating today's sale, \n'2' to print the last 5 day sales \n'3' for printing the upcoming stock update \n'4' for printing the stock leftout for this week \n'5' for Exiting the application")
     opt = input()
     if opt=='1':
         update_last_sales_entries()
@@ -369,6 +371,10 @@ def main():
    """
    This function calls the director funtion that calls for multi-function
    """
+   colorama.init(autoreset= True)
+   print(Fore.RED+"**********************************************************************")
+   print(f"{Back.GREEN}{Fore.RED}                     WELCOME TO THE BURGER APPLICATION                ")
+   print(Fore.RED+"**********************************************************************")
    director()
     
 main()
