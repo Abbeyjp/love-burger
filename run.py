@@ -351,7 +351,7 @@ def director():
     Executing all the functions
     """
     print(f"{Back.RED}Please enter the an option")
-    print("'1' for updating today's sale, \n'2' to print the last 5 day sales \n'3' for printing the upcoming stock update \n'4' for printing the stock leftout for this week \n'5' for Exiting the application")
+    print("'1' for updating today's sale, \n'2' to print the last 5 day sales \n'3' for printing the upcoming stock update \n'4' for printing the stock leftout for this week \nAnyother key for Exiting the application")
     opt = input()
     if opt=='1':
         update_last_sales_entries()
@@ -361,7 +361,7 @@ def director():
         get_upcoming_stocks()
     elif opt=='4':
         get_left_stocks()
-    elif opt=='5':
+    else:
         print("Program exit............")
     
 
