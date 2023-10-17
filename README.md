@@ -45,11 +45,6 @@
 - There is no signup as it is a secured with the respective google account whereby, it can only be executed in the respective installed device
 
 
-#### Rules
-
-- Once users have been logged in, they will be asked if they want to see the rules
-- Operation: Do you want to see the rules: Y/N
-
 #### Start Application
 
 - If user decide to see different option, they need to just type in the number and click enter
