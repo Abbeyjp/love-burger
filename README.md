@@ -3,47 +3,6 @@
 - Love Burger as the name suggest is a an app that helps the burger shop to monitor its stock automatically.
 - It helps the employ to fill out the stock which will be automated.
 
-
-[Link to the website](https://hangman-pp.herokuapp.com/)
-
-![An image previewing all devices](/assets/screenshots/preview.png)
-
-## Contents
-- [Project Goals](#project-goals)
-    - [User Stories](#user-stories)
-    - [Site Owner Goals](#site-owner-goals)
-- [User Experience](#user-experience)
-    - [Target Audience](#target-audience)
-    - [User Requirements and Expectations](#user-requirements-and-expectations)
-    - [User Manual](#user-manual)
-- [User Stories](#user-stories)
-    - [Users](#users)
-    - [Site Owner](#site-owner)
-- [Teachnical Design](#technical-design)
-    - [Flowchart](#flowchart)
-- [Technology Used](#technology-used)
-    - [Language used](#language-used)
-    -[Python Libraries used](#python-libraries-used)
-    - [Other websites/tools used](#other-websitestools-used)
-    - [3rd Party Python Libraries used](#3rd-party-python-libraries-used)
-- [Features](#features)
-    - [Existing Features](#existing-features)
-    - [Features to be implemented](#features-to-be-implemented)
-- [Testing](#testing)
-    - [Manual Testing](#manual-testing)
-    - [Tested Devices with Browsers](#tested-devices-with-browsers)
-    - [Validator Testing](#validator-testing)
-    - [Bugs and Fixes](#bugs-and-fixes)
-    - [Unfixed Bugs](#unfixed-bugs)
-- [Deployment](#deployment)
-    - [Deploying in Heroku](#deploying-the-website-in-heroko)
-    - [Forking the GitHub Repository](#forking-the-github-repository)
-    - [Cloning of Repository i GitHub](#cloning-the-repository-in-github)
-- [Credits](#credits)
-    - [Content](#content)
-    - [Code](#code)
-- [Thank You](#thank-you)
-
 ## Project Goals
 ### User Stories
 
@@ -130,7 +89,7 @@
 <details>
     <summary>Flowchart</summary>
     <p>Love Burger</p>
-    <img src = "assets/screenshots/Lucid.png" alt = "A screenshot of flowchart">
+    <img src = "Lucid.png" alt = "A screenshot of flowchart">
 </details>
 
 ## Technology Used
@@ -169,7 +128,7 @@
 - User stories covered: 1
 <details>
     <summary>Home Page screenshot</summary>
-    <img src="assets/screenshots/home.png" alt="Game load page">
+    <img src="home.png" alt="Game load page">
 </details>  
 
 
@@ -187,7 +146,7 @@
 <details>
     <summary>Screenshots</summary>
     <p>home</p>
-    <img src="assets/screenshots/home.png" alt="Sign up area">
+    <img src="home.png" alt="Sign up area">
 </details> 
 
 2. I want print last 5 day sales
@@ -195,7 +154,7 @@
 <details>
     <summary>Screenshots</summary>
     <p>home</p>
-    <img src="assets/screenshots/options1.png" alt="Sign up area">
+    <img src="options1.png" alt="Sign up area">
 </details> 
 
 3. I want to be able to log-in if I return to the game
@@ -203,7 +162,7 @@
 |<details>
     <summary>Screenshots</summary>
     <p>home</p>
-    <img src="assets/screenshots/options3.png" alt="Sign up area">
+    <img src="options3.png" alt="Sign up area">
 </details> 
 
 4. I want to be able to read the rules of the game
@@ -211,7 +170,7 @@
 <details>
     <summary>Screenshots</summary>
     <p>home</p>
-    <img src="assets/screenshots/options4.png" alt="Sign up area">
+    <img src="options4.png" alt="Sign up area">
 </details> 
 
 5. I want to be able to restart game when I'm logged in
@@ -219,7 +178,7 @@
 <details>
     <summary>Screenshots</summary>
     <p>home</p>
-    <img src="assets/screenshots/options5.png" alt="Sign up area">
+    <img src="options5.png" alt="Sign up area">
 </details> 
 
 
